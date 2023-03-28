@@ -23,12 +23,10 @@ public class SpartanGetRequests {
                 .get(baseUrl + "/api/spartans");
         //printing status code from response object
 
-        System.out.println(response.statusCode());
-
+        System.out.println("response.statusCode() = " + response.statusCode());
         //printing response content type from response object
 
-        System.out.println(response.contentType());
-
+        System.out.println("response.contentType() = " + response.contentType());
         //print whole result body
         response.prettyPrint();
 
@@ -36,7 +34,7 @@ public class SpartanGetRequests {
         //verify status code is 200
         Assertions.assertEquals(response.statusCode(),200);
 
-        //verify content type is application/json
+        //verify content type is application/jsonwww
 
         Assertions.assertEquals(response.contentType(),"application/json");
 
