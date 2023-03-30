@@ -6,6 +6,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,9 +90,24 @@ public class SpartanTestsWithParameters {
         assertEquals("application/json",response.contentType());
         assertTrue(response.body().asString().contains("Female"));
         assertTrue(response.body().asString().contains("Janette"));
+    }
 
+    @DisplayName("GET request to /api/spartans/search with Query Params (MAP)")
+    @Test
+    public void test4(){
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("nameContains", "e");
+        queryMap.put("gender", "Female");
 
+        Response response = given().log().all().
+                accept(ContentType.JSON)
+                .and().queryParams(queryMap)
+                .when().get(" /api/spartans/search");
 
+        assertEquals(200,response.statusCode());
+        assertEquals("application/json",response.contentType());
+        assertTrue(response.body().asString().contains("Female"));
+        assertTrue(response.body().asString().contains("Janette"));
 
 
 
