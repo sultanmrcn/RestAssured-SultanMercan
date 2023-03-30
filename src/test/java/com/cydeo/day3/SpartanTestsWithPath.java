@@ -91,8 +91,6 @@ public class SpartanTestsWithPath {
             System.out.println(n);
         }
 
-
-
     }
 
 }
