@@ -19,7 +19,7 @@ public class ORDSApiWithJsonPath extends HrTestBase {
 
     @DisplayName("GET request to Countries")
     @Test
-    public void test1(){
+    public void test1() {
 
         Response response = get("/countries");
 
@@ -31,7 +31,7 @@ public class ORDSApiWithJsonPath extends HrTestBase {
         System.out.println("secondCountryName = " + secondCountryName);
 
         //get all country ids
-        List<String > allCountryIds = jsonPath.getList("items.country_id");
+        List<String> allCountryIds = jsonPath.getList("items.country_id");
         System.out.println("allCountryIds = " + allCountryIds);
 
         //get all country names where their region id is equal to 2
@@ -45,4 +45,32 @@ public class ORDSApiWithJsonPath extends HrTestBase {
         System.out.println("countryNameWithRegionId2 = " + countryNameWithRegionId2);
 
     }
+
+    @DisplayName("GET request /employees with query param")
+    @Test
+    public void test2() {
+        //we added limit query param to get 107 employees
+        Response response = given().queryParam("limit", 107)   //with that we can see all the employees in json. if hasmore:false so we can see the all employees.
+                .when().get("/employees");
+
+        //get me all email of employees who is working as IT_PROG (if employee is IT_PROG, I wanna get the email)
+
+        JsonPath jsonPath = response.jsonPath();
+        List<String> employeeITProgs = jsonPath.getList("items.findAll{it.job_id==\"IT_PROG\"}.email");
+        System.out.println("employeeITProgs = " + employeeITProgs);
+
+        //Get me first name of employees who is making more than 10000
+        List<String> empNames = jsonPath.getList("items.findAll{it.salary>10000}.first_name");
+        System.out.println("empNames = " + empNames);
+
+        //get the max salary first_name
+        String kingFirstName = jsonPath.getString("items.max {it.salary}.first_name");
+        String kingNameWithPathMethod = response.path("items.max {it.salary}.first_name");
+        System.out.println("kingFirstName = " + kingFirstName);
+        System.out.println("kingNameWithPathMethod = " + kingNameWithPathMethod);
+
+
+        //  response.prettyPrint();
+    }
+
 }
