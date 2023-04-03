@@ -15,29 +15,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ORDSApiTestWithPath extends HrTestBase {
     @DisplayName("GET request to countries with Path method")
     @Test
-    public void test1(){
+    public void test1() {
 
-        Response response= given().accept(ContentType.JSON)
-                .queryParam("q","{\"region_id\":2}")
+        Response response = given().accept(ContentType.JSON)
+                .queryParam("q", "{\"region_id\":2}")
                 .when()
                 .get("/countries");
 
-        assertEquals(200,response.statusCode());
+        assertEquals(200, response.statusCode());
 
         //print limit result
         System.out.println("response.path(\"limit\") = " + response.path("limit"));
-
         //print hasMore
         System.out.println("response.path(\"hasMore\") = " + response.path("hasMore"));
 
         //print first CountryId
         String firstCountryId = response.path("items[0].country_id");
         System.out.println("firstCountryId = " + firstCountryId);
-
         //print second country name
         String secondCountryName = response.path("items[1].country_name");
         System.out.println("secondCountryName = " + secondCountryName);
-
         //print "http://52.207.61.129:1000/ords/hr/countries/CA"
         String thirdHref = response.path("items[2].links[0].href");
         System.out.println("thirdHref = " + thirdHref);
@@ -51,17 +48,57 @@ public class ORDSApiTestWithPath extends HrTestBase {
 
         for (Integer regionsID : allRegionsIDs) {
             System.out.println("regionsID = " + regionsID);
-            assertEquals(2,regionsID);
+            assertEquals(2, regionsID);
+
+        }
+
+
+
+
+
+    }
+
+    @DisplayName("GET request to /employees with Query Param")
+    @Test
+    public void test2 () {
+
+        Response response = given().accept(ContentType.JSON).and().
+                queryParam("q", "{\"job_id\": \"IT_PROG\"}")
+                .log().all()
+                .when().get("/employees");
+
+        assertEquals(200, response.statusCode());
+
+        assertEquals("application/json", response.contentType());
+
+        assertTrue(response.body().asString().contains("IT_PROG"));
+
+        //make sure we have only IT_PROG as a job_id
+        List<String> allJobIds = response.path("items.job_id");
+        for (String jobid:allJobIds) {
+            System.out.println("jobid = " + jobid);
+            assertEquals("IT_PROG",jobid);
+
         }
 
 
     }
+}
+
+
+
+
+
+
+
+
+
 
 
         //TASK
         //print name of each IT_PROG
 
-    }
+
 
 
 
