@@ -38,6 +38,30 @@ public class HamcrestMatchersApiTest {
                         "name",equalTo("Meta")
                         ,"gender",is("Female"),
                         "phone",is(1938695106));
+    }
+    @DisplayName("CBTraining Teacher request with chaining and matchers")
+    @Test
+    public void teacherData(){
+
+        given()
+                .accept(ContentType.JSON)
+                .and()
+                .pathParam("id",3)
+                .and()
+
+                .when()
+                .get("https://api.training.cydeo.com/teacher/{id}")
+                .then()
+                .statusCode(200)
+                .and()
+                .contentType("application/json;charset=UTF-8")
+                .and()
+                .header("server","envoy")
+                .header("Date",notNullValue())
+                .and().assertThat()
+                .body("teachers[0].firstName",is("Tet"))
+                .body("teachers[0].lastName",is("DS"))
+                .body("teachers[0].gender",equalTo("Male"));
 
     }
 
