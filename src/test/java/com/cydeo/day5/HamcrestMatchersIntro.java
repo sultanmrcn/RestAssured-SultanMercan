@@ -15,33 +15,34 @@ public class HamcrestMatchersIntro {   //Hamcrest: assertion library.
 
     @DisplayName("Assertion with numbers")
     @Test
-    public void simpleTest1() {
+    public void simpleTest1(){
         //actual 5+5
         //expected is(10)
-        assertThat(5 + 5, is(10));
-        assertThat(5 + 5, equalTo(10));
+        assertThat(5+5, is(10));
+        assertThat(5+5,equalTo(10));
         //matchers has 2 overloaded version
         //first that accept actual value
         //second taht accept another matchers
         //below examples is method is accepting another matchers equal to make it readable
-        assertThat(5 + 5, is(equalTo(10)));
+        assertThat(5+5,is(equalTo(10)));
 
-        assertThat(5 + 5, not(9));
-        assertThat(5 + 5, is(not(9)));
-        assertThat(5 + 5, is(not(equalTo(9))));
+        assertThat(5+5,not(9));
+        assertThat(5+5,is(not(9)));
+        assertThat(5+5,is(not(equalTo(9))));
 
         //number comparison
         //greaterThan()
         //greaterThanOrEqualTo()
         //lessThan()
         //lessThanOrEqualTo()
-        assertThat(5 + 5, is(greaterThan(9)));
+        assertThat(5+5,is(greaterThan(9)));
 
         // you can check details in here
         // https://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html
 
 
     }
+
     @DisplayName("Assertion with String")
     @Test
     public void stringHamcrest() {
@@ -55,7 +56,7 @@ public class HamcrestMatchersIntro {   //Hamcrest: assertion library.
 
         //check if this text starts with EU10
         assertThat(text,startsWith("EU10"));
-        //now do it in case insensitive manner
+        //now do it in case sensitive manner
         assertThat(text,startsWithIgnoringCase("eu10"));
         //endswith
         assertThat(text,endsWith("rest"));
@@ -94,5 +95,6 @@ public class HamcrestMatchersIntro {   //Hamcrest: assertion library.
         assertThat(listOfNumbers,everyItem(greaterThan(0)));
 
     }
+
 
 }
