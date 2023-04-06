@@ -41,7 +41,7 @@ public class SpartanHamcrestTest extends SpartanTestBase {
     @DisplayName("GET spartan/search and chaining together")
     @Test
     public void statusCode(){
-         // different example with extract()
+         //   different example with extract()
         int statusCode = given().accept(ContentType.JSON)
                 .and()
                 .queryParams("nameContains","j",
