@@ -1,6 +1,7 @@
 6.Converting JSON to Custom Java Classes
 POJO(Plain old java object)
 
+
 -we gonna create classes and we will use them as a template, blueprint
 
 -we use encapsulation OOP concept in pojo (the custom class that we created)
