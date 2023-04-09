@@ -1,0 +1,146 @@
+Hamcrest: is an assertion library.
+it is not just for api, you can use in selenium etc.
+different than testng and junit, because Hamcrest is assertion with plain english.
+you have different options other than equals, true, false..
+
+MatcherAssert.assertThat(); you can import static and just use assertThat();
+
+         actual  expected
+assertThat(5+5, is(10));
+
+is = equalTo
+
+**overloaded methods --> assertThat is Hamcrest library.
+matchers has 2 overloaded version
+        -first that accept actual value
+        -second taht accept another matchers
+
+assertThat(5+5,not(9)); --> for negatives
+
+number comparison
+        -greaterThan()
+        -greaterThanOrEqualTo()
+        -lessThan()
+        -lessThanOrEqualTo()
+        assertThat(5+5,is(greaterThan(9)));
+
+- assertThat is case insensitive
+- you can use startsWith() or endsWith() --> assertThat(text,startsWith("EU10"));
+- you can use containsString() or containsStringIgnoringCase()
+- you can use blankString() or emptyString()  --> assertThat(str.trim(),emptyString());
+
+** you can check details in here https://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html
+
+In collection;
+when we assert the List we can use these methods --> hasSize(), hasItem(), hasItems(), everyItem()
+
+- everyItem() - by the help of that method we dont need loops to check all of the List
+assertThat(listOfNumbers,everyItem(greaterThan(0)));
+
+items.job_id -> return all job ids as a list. and everyItem() -> we it is gonna loop for the every item in the list.
+(you can use is, greater than vs everything instead of equalTo)
+
+-containsInRelativeOrder(): you need to give same order also. diana başa yazarsan fail olur mesela.
+                          : sadece bir isim de var mı diye kontrol etmek istersen de kullanabilirsin, illa tüm listi yazmana gerek yok.
+                          : contains with order
+-containsInAnyOrder(): you can change the order
+                     : contains without order
+
+-equalToObject(names)); : equality of lists assertion
+
+-extract() : method that allow us to get response object after we use then() method.
+           : after writing .extract() method: it will give you option to return response, jsonpath, and whatever you wanna return!
+
+           :böylece given, when, then akışındaki request ve response bütününün tamamlanmışlığına ek olarak nereye döneceğini belirtebilirsin.
+
+           :with this .extract(). method, while I do verification, I can save inside the response object
+
+           :without changing the structure, adding a list -> use extract() method
+           extract() sonrası jsonpath kullanıyorum çünkü onun getList methodu var.
+           direkt extract().jsonPath() de yazılabilir. ya da extract().response().jsonPath()
+
+-notNullValue() : Hamcrest Matchers method
+
+*header value always verify as String, no matter number or text.
+
+*when you hover over sth, if it is Syntactic sugar, it is optional. also we can write anywhere it doesnt matter
+
+
+
+.log().all()  given kısmında yazarsan request gösterilir,
+              then sonrası assertler kısmında sona yazarsak response gösterilir.
+
+
+
+_*_ Converting JSON Response to Java Collection/Data structure
+we convert (with as method)json response body to java collection (map),
+because json body is key and value format with matches with map
+In map key always String, but value part should be Object, because value can be number, string or array of json object...
+We can say Deserializaiton when we convert from json to java.
+
+Map<String,Object> jsonDataMap = response.body().as(Map.class);
+
+Jackson and Gson : these are two libraries that allows you to do this convertion.
+                 : without adding these libraries this as() method will not work. Do it in pom.xml
+                 : also known as objectMapper,jsonparser, databinding libraries
+
+database vs api comparation in java:
+1-connect to database and take the information manually
+2-check from postman. api against database.
+3-we compare the database result against api in java (api is actual, database expected)
+(1-add oracle dependency in pomxml   2-add DButils, SpartanTestBase)
+
+
+******
+
+Response Validations
+
+    so far, we send all request and stored responses into Response object, then did validations(status code,header,body)
+    we can also do all of those actions in single statement by Hamcrest Mathers.
+
+    if we are getting one value we can use is() or equalTo("expectedValue") method.
+    for working with multiple values we have hasItems("value1","value2",.."valueN") method
+
+
+VERIFY RESPONSE BODY/PAYLOAD
+
+1.using contains method(not recommended)
+    --treat the response json as a String and do contains assertion on it.
+        response.body().asString().contains("ExpectedValue");
+
+2.using path() method
+    Extract values from json body using path() method, then use JUnit5 for assertion
+        String city = response.path("items.city[0]");
+        assertEquals(city,"New York");
+3.using JsonPath class
+    Convert Response data into JsonPath then use jsonpath getter methods to extract values.
+    Used Junit5 for assertion.
+        JsonPath jsonPath = response.jsonPath();
+        assertEquals(json.getString("gender"),"Male")
+4.Hamcrest Mathcers with chaining restassured methods.
+    we can do assertions in single statement by chaining method in RestAssured.
+    to find values in the body, we us the same path syntax(Gpath syntax).
+    then we use hamcrest matchers assertions to do validation
+         .and().body("id",equalTo(15),
+                     "name",is("Meta"),
+                     "gender",is("Female"),
+                     "phone",is(1938695106));
+
+5.Converting JSON Response to Java Collection/Data structure
+
+Response body --> Java collection
+{
+    "id": 15,
+    "name": "Meta",
+    "gender": "Female",
+    "phone": 1938695106
+}
+
+
+Map<String,Object> jsonDataMap = response.body().as(Map.class);
+
+Deserializaiton ==> JSON To JAVA
+
+    Jackson or Gson ==> those are libraries to deserialization and serialization. they are also known as objectMapper,jsonparser, databinding libraries.we added jackson (Databind) library to our pom.xml to deserialize
+
+6. we will learn later
