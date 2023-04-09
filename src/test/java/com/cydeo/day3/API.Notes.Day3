@@ -1,0 +1,47 @@
+if you write q in the key value in query parameters,
+you should write key+value in this format in value part  ->    {"region_id": 2}
+if it is not on the documentation such as HR, you can use this format.
+{{hrUrl}}/employees?q={"job_id": "IT_PROG"}
+{"salary": 10000}
+
+
+
+.log().all()  when we add them between given and accept, it is showing all the parts,all the product in console.
+it is optional to see your request. not mandatory
+also you can add different parts. log().parameters() also to see all details the request parameters
+
+
+
+ya response içine queryParam ile key+value ekleyebilirsin.
+ya da map açıp ona key+value ekleyerek,
+o map i response içinde queryParams ile ekleyebilirsin. S var dikkat!
+
+
+assertTrue(response.body().asString().contains("IT_PROG"));
+
+        i need to verify only job_id is IT_prog, so I go inside the json. navigate inside json and get the data.
+        asString().contains() is not proper test, because it check all string, not the specific part
+
+        so we will use .path method
+
+        path is returning T, and you dont need casting for it to saving to the variable.
+        path is like automatically adjust type on the left side.
+        int değere path T olduğu için string eşitleyebilirsin vs gibi.
+
+            int id = response.path("id");
+
+
+
+* How to navigate through JSON body/payload and read values from keys?
+
+There are multiple ways of navigating through json
+    -using path() method
+    -using JsonPath
+    -using deserialization to Java collections
+    -using deserialization to POJO(Java custom classes)
+
+Response object has .path method where we provide key of the json, it returns the value of it.
+
+
+int firstId = response.path("id[0]");
+-json array'lerden oluştuğu için, ilk id bulmak için 0 index birinci id veriyor.
