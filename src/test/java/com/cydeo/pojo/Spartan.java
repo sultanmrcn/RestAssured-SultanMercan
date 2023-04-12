@@ -59,3 +59,9 @@ public class Spartan {
                 '}';
     }
 }
+/*
+    1-create private fields
+    2-generate getters and setters
+    3-generate toString method
+    * there is default constructor, if it is necessary situation we can create
+ */
